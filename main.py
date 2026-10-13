@@ -16,14 +16,6 @@ RATE_WINDOW_SECONDS = 10.0
 
 app = FastAPI(title="Orders API: Idempotency, Pagination, Rate Limits")
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
-    allow_methods=["GET", "POST", "OPTIONS"],
-    allow_headers=["Content-Type", "Idempotency-Key", "X-Client-Id"],
-)
-
 # Fixed catalog IDs 1..43.
 CATALOG = [
     {"id": i, "sku": f"SKU-{i:04d}", "status": "shipped" if i % 3 == 0 else "processing"}
@@ -75,6 +67,13 @@ async def client_rate_limit_middleware(request: Request, call_next):
         )
     return await call_next(request)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type", "Idempotency-Key", "X-Client-Id"],
+)
 
 @app.get("/")
 async def root():
