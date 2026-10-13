@@ -12,14 +12,16 @@ FastAPI orders API demonstrating idempotent POST requests, cursor-based paginati
 
 ## Live API
 
-After deployment, use `https://YOUR-SERVICE.onrender.com` as the base URL.
+Base URL: https://fastapi-orders-api-ehd1.onrender.com
+
+Interactive API documentation: https://fastapi-orders-api-ehd1.onrender.com/docs
 
 ## Features
 
 - **Idempotent creation:** `POST /orders` requires `Idempotency-Key`. Repeating a key returns the same order ID and does not create another order.
 - **Cursor pagination:** `GET /orders?limit=P&cursor=C` pages through catalog IDs 1–43 without gaps or duplicates.
 - **Per-client rate limiting:** `X-Client-Id` clients receive up to 16 requests per 10-second window. Further requests receive HTTP 429 and `Retry-After`.
-- **CORS:** Allows browser requests from any origin, with the required request headers.
+- **CORS:** Allows cross-origin browser requests and exposes the Retry-After response header.
 
 ## Endpoints
 
